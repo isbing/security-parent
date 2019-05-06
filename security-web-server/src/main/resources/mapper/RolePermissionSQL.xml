@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.isbing.security.dao.RolePermissionDao">
+    <resultMap id="rolePermissionResult" type="com.isbing.security.bean.RolePermission">
+        <result column="role_id" property="roleId" jdbcType="INTEGER"/>
+        <result column="permission_id" property="permissionId" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <sql id="selectSQL">
+        select role_id,permission_id from role_permission
+    </sql>
+
+    <select id="getByRoleId" resultMap="rolePermissionResult">
+        <include refid="selectSQL"/>
+        where role_id = #{value}
+    </select>
+
+
+    <insert id="insertRolePermission" parameterType="java.util.List">
+        insert into role_permission(role_id,permission_id)
+        values
+        <foreach collection="list" item="item" index="index" separator=",">
+            (#{item.roleId},#{item.permissionId})
+        </foreach>
+    </insert>
+
+    <delete id="clearPermission" parameterType="int">
+        delete from role_permission where role_id = #{value}
+    </delete>
+</mapper>

@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.isbing.security.dao.MenuDao">
+    <resultMap id="menuResult" type="com.isbing.security.bean.Menu">
+        <result column="id" property="id" jdbcType="INTEGER"/>
+        <result column="name" property="name" jdbcType="VARCHAR"/>
+        <result column="icon" property="icon" jdbcType="VARCHAR"/>
+        <result column="url" property="url" jdbcType="VARCHAR"/>
+        <result column="parent_id" property="parentId" jdbcType="INTEGER"/>
+        <result column="sort" property="sort" jdbcType="INTEGER"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+    </resultMap>
+    <sql id="selectSQL">
+        select id,`name`,icon,url,parent_id,sort,create_time from menu
+    </sql>
+
+    <select id="getAllFirstLevel" resultMap="menuResult">
+        <include refid="selectSQL"/>
+        where (parent_id is null or parent_id = 0)
+        order by sort desc
+    </select>
+
+    <select id="getAllSecondLevel" parameterType="int" resultMap="menuResult">
+        <include refid="selectSQL"/>
+        where parent_id = #{value}
+        order by sort desc
+    </select>
+
+    <select id="getAllSecondLevelNoId" resultMap="menuResult">
+        <include refid="selectSQL"/>
+        where parent_id > 0
+        order by create_time desc
+    </select>
+
+    <insert id="insert" parameterType="com.isbing.security.bean.Menu">
+        insert into menu(`name`,icon,url,parent_id,sort,create_time)
+        values(#{name},#{icon},#{url},#{parentId},#{sort},now())
+        <selectKey keyProperty="id" resultType="int" order="AFTER">
+            select last_insert_id()
+        </selectKey>
+    </insert>
+
+    <select id="getById" parameterType="int" resultMap="menuResult">
+        <include refid="selectSQL"/>
+        where id = #{value}
+    </select>
+
+    <update id="update" parameterType="com.isbing.security.bean.Menu">
+        update menu
+        <set>
+            <if test="name != null">
+                name = #{name},
+            </if>
+            <if test="icon != null">
+                icon = #{icon},
+            </if>
+            <if test="url != null">
+                url = #{url},
+            </if>
+            <if test="sort > 0">
+                sort = #{sort},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+</mapper>
