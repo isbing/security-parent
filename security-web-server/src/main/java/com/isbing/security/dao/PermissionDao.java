@@ -1,7 +1,6 @@
 package com.isbing.security.dao;
 
 import com.isbing.security.bean.Permission;
-import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
 
@@ -9,7 +8,6 @@ import java.util.List;
  * Created by song bing
  * Created time 2019/3/26 16:03
  */
-@Mapper
 public interface PermissionDao {
 
 	List<Permission> getAll();

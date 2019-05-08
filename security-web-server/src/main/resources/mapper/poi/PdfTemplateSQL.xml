@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.isbing.other.dao.PdfTemplateDao">
+    <resultMap id="pdfTemplateResult" type="com.isbing.tool.common.bean.PdfTemplate">
+        <result column="id" property="id" jdbcType="INTEGER"/>
+        <result column="name" property="name" jdbcType="VARCHAR"/>
+        <result column="status" property="status" jdbcType="INTEGER"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="offline_time" property="offlineTime" jdbcType="TIMESTAMP"/>
+        <result column="view_location" property="viewLocation" jdbcType="VARCHAR"/>
+        <result column="operator" property="operator" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <sql id="selectSQL">
+        select id,name,status,create_time,offline_time,view_location,operator from pdf_template
+    </sql>
+
+
+    <insert id="insert" parameterType="com.isbing.tool.common.bean.PdfTemplate">
+        insert into pdf_template(name,status,create_time,view_location,operator)
+        values(#{name},#{status},now(),#{viewLocation},#{operator})
+        <selectKey keyProperty="id" resultType="int" order="AFTER">
+            select last_insert_id()
+        </selectKey>
+    </insert>
+
+    <select id="getByName" parameterType="string" resultMap="pdfTemplateResult">
+        <include refid="selectSQL"/>
+        where name = #{value}
+    </select>
+</mapper>
