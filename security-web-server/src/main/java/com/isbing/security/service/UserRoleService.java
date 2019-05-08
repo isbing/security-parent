@@ -52,4 +52,12 @@ public class UserRoleService {
 		}
 		userRoleDao.insertUserRole(userRoleList);
 	}
+
+	public void deleteByRoleId(Integer roleId) {
+		userRoleDao.deleteByRoleId(roleId);
+	}
+
+	public void clearRole(Integer userId) {
+		userRoleDao.clearRole(userId);
+	}
 }

@@ -23,6 +23,11 @@ public class CurrentUser extends SysUser implements UserDetails {
 		return token;
 	}
 
+	@Override
+	public String getUsername() {
+		return getUserName();
+	}
+
 	public void setToken(String token) {
 		this.token = token;
 	}

@@ -93,20 +93,14 @@
                 if (data.code == '1003') {
                     window.location = "/signin.html";
                 } else if (data.code == '200') {
-                    layer.msg("提交成功!");
-                    setTimeout(closeIndex(), 1000);
-
+                    layer.msg("添加成功!", {icon: 1, time: 1000}, function () {
+                        closeCurrentIndex();
+                    });
                 } else {
                     layer.msg(data.message);
                 }
             }
         });
-    }
-
-
-    function closeIndex() {
-        var index = parent.layer.getFrameIndex(window.name); //获取当前窗体索引
-        parent.layer.close(index); //执行关闭
     }
 
 </script>

@@ -42,7 +42,7 @@
                             <th>ID</th>
                             <th>角色名</th>
                             <th>角色Code</th>
-                            <th colspan="2">操作</th>
+                            <th colspan="3">操作</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -93,6 +93,7 @@
                                 "<th>" + checkedStr(data.content[i].code) + "</th>" +
                                 "<th><a onclick='setPerm(\"" + data.content[i].id + "\")'>设置权限</a></th>" +
                                 "<th><a onclick='updateRole(\"" + data.content[i].id + "\")'>修改</a></th>" +
+                                "<th><a onclick='deleteRole(\"" + data.content[i].id + "\")'>删除角色</a></th>" +
                                 "</tr>");
                         }
 
@@ -115,7 +116,7 @@
             area: ['1000px', '600px'],
             content: '/admin/role/addRole.html?',
             end: function () {
-                searchAll(0);
+                refresh();
             }
         });
     }
@@ -131,16 +132,13 @@
             area: ['1000px', '500px'],
             content: '/admin/role/updateRole.html?' + id,
             end: function () {
-                // if (pageNum < 0) {
-                //     pageNum = 0;
-                // }
-                searchAll(0);
+                refresh();
             }
         });
     }
 
 
-    //添加职位信息
+    // 设置权限
     function setPerm(id) {
         parent.layer.open({
             type: 2,
@@ -149,8 +147,48 @@
             shade: false,
             maxmin: true, //开启最大化最小化按钮
             area: ['1000px', '600px'],
-            content: '/admin/role/updateRolePerm.html?' + id
+            content: '/admin/role/updateRolePerm.html?' + id,
+            end: function () {
+                refresh();
+            }
         });
+    }
+
+
+    /**
+     * 删除角色
+     * @param id
+     */
+    function deleteRole(id) {
+        layer.confirm('确定要删除此条信息？', {
+            btn: ['确定', '取消'] //按钮
+        }, function () {
+            $.ajax({
+                type: "PUT",
+                url: "/role/deleteById",
+                'headers': {
+                    'x-auth-token': localStorage.getItem("token")
+                },
+                data: {
+                    id: id
+                },
+                dataType: "json",
+                success: function (data) {
+                    if (data.code == '1003') {
+                        window.location = "/login.html";
+                    } else if (data.code == '200') {
+                        layer.msg('删除成功');
+                        setTimeout("refresh()", 500);
+                    }
+                },
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                    layer.msg('删除失败');
+                }
+            });
+        }, function () {
+
+        });
+
     }
 
 </script>

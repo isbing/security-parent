@@ -18,4 +18,6 @@ public interface UserRoleDao {
 	void clearRole(int userId);
 
 	void insertUserRole(List<Map<String, Integer>> userRoleList);
+
+	void deleteByRoleId(Integer roleId);
 }

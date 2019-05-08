@@ -29,8 +29,4 @@ public class SysUser {
 
 	private Set<Menu> menus = new LinkedHashSet<>();//菜单 用于动态展示菜单
 	protected Set<String> permissionRoleCodes = new LinkedHashSet<>();//权限名、角色名 用于校验权限
-
-	public String getUsername() {
-		return userName;
-	}
 }

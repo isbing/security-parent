@@ -20,28 +20,28 @@ public class PermissionController {
 	@Resource
 	private PermissionService permissionService;
 
-	@PreAuthorize("hasAnyRole('ROLE_PERMIS')")
+	@PreAuthorize("hasAnyRole('ROLE_SECURITY')")
 	@GetMapping("getAll")
 	@ResponseBody
 	public PageBean getAll() {
 		return permissionService.getAll();
 	}
 
-	@PreAuthorize("hasAnyRole('ROLE_PERMIS')")
+	@PreAuthorize("hasAnyRole('ROLE_SECURITY')")
 	@PostMapping("create")
 	@ResponseBody
 	public Integer create(@RequestBody Permission permission) {
 		return permissionService.insert(permission);
 	}
 
-	@PreAuthorize("hasAnyRole('ROLE_PERMIS')")
+	@PreAuthorize("hasAnyRole('ROLE_SECURITY')")
 	@GetMapping("getById")
 	@ResponseBody
 	public Permission getById(@RequestParam(value = "id") int id) {
 		return permissionService.getById(id);
 	}
 
-	@PreAuthorize("hasAnyRole('ROLE_PERMIS')")
+	@PreAuthorize("hasAnyRole('ROLE_SECURITY')")
 	@PutMapping("update")
 	@ResponseBody
 	public void update(@RequestBody Permission permission) {

@@ -1,6 +1,5 @@
 package com.isbing.security.service;
 
-import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import com.isbing.security.bean.*;
 import com.isbing.security.dao.MenuDao;
@@ -84,14 +83,12 @@ public class MenuService {
 				// 根据role 获取 权限
 				roleList.forEach(role -> {
 					codeList.add(role.getCode());
-
 					List<Integer> permissionIdList = rolePermissionService.getByRoleId(role.getId());
 					if (CollectionUtils.isNotEmpty(permissionIdList)) {
 						permissionIdList.forEach(permissionId -> {
 							Permission permission = permissionService.getById(permissionId);
 							if (Objects.nonNull(permission)) {
 								codeList.add(permission.getCode());
-
 								Menu menu = menuDao.getById(permission.getMenuId());
 								if (Objects.nonNull(menu)) {
 									menuSet.add(menu);

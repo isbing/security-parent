@@ -18,14 +18,14 @@ public class UserRoleController {
 	@Resource
 	private UserRoleService userRoleService;
 
-	@PreAuthorize("hasAnyRole('ROLE_USER')")
+	@PreAuthorize("hasAnyRole('ROLE_SECURITY')")
 	@GetMapping("getRoleByUserId")
 	@ResponseBody
 	public List<Integer> getRoleByUserId(@RequestParam(value = "userId") int userId) {
 		return userRoleService.getRoleByUserId(userId);
 	}
 
-	@PreAuthorize("hasAnyRole('ROLE_USER')")
+	@PreAuthorize("hasAnyRole('ROLE_SECURITY')")
 	@PostMapping("setUserRole")
 	@ResponseBody
 	public void setUserRole(@RequestParam(value = "userId") int userId,

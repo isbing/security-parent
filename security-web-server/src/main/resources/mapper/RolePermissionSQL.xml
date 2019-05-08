@@ -27,4 +27,9 @@
     <delete id="clearPermission" parameterType="int">
         delete from role_permission where role_id = #{value}
     </delete>
+
+    <delete id="deleteByRoleId" parameterType="java.lang.Integer">
+	   delete from role_permission where role_id = #{value}
+	</delete>
+
 </mapper>

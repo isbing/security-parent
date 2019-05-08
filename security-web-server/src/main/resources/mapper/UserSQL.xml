@@ -50,4 +50,8 @@
         </set>
         where id = #{id}
     </update>
+
+    <delete id="deleteById" parameterType="java.lang.Integer">
+	   delete from `user` where id = #{value}
+	</delete>
 </mapper>

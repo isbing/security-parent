@@ -26,4 +26,8 @@
     <delete id="clearRole" parameterType="int">
         delete from user_role where user_id = #{value}
     </delete>
+
+    <delete id="deleteByRoleId" parameterType="java.lang.Integer">
+	   delete from user_role where role_id = #{value}
+	</delete>
 </mapper>

@@ -126,10 +126,7 @@
                     area: ['1000px', '600px'],
                     content: '/admin/menu/addSonMenu.html?' + menuId,
                     end: function () {
-                        // if (pageNum < 0) {
-                        //     pageNum = 0;
-                        // }
-                        searchAll(0);
+                        refresh();
                     }
                 });
             }
@@ -145,10 +142,7 @@
                     area: ['1000px', '500px'],
                     content: '/admin/menu/updateSonMenu.html?' + id,
                     end: function () {
-                        // if (pageNum < 0) {
-                        //     pageNum = 0;
-                        // }
-                        searchAll(0);
+                        refresh();
                     }
                 });
             }

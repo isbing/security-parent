@@ -93,7 +93,7 @@
                         for (var i = 0; i < data.content.length; i++) {
                             var updateButton = "";
                             // 不存在 返回 -1
-                            if (authorities.indexOf("ROLE_PERMIS") >= 0) {
+                            if (authorities.indexOf("ROLE_SECURITY") >= 0) {
                                 updateButton = "<a onclick='updatePermission(\"" + data.content[i].id + "\")'>修改</a>";
                             }
 
@@ -124,7 +124,7 @@
             area: ['1000px', '600px'],
             content: '/admin/permission/addPermission.html?',
             end: function () {
-                searchAll(0);
+                refresh();
             }
         });
     }
@@ -140,10 +140,7 @@
             area: ['1000px', '500px'],
             content: '/admin/permission/updatePermission.html?' + id,
             end: function () {
-                // if (pageNum < 0) {
-                //     pageNum = 0;
-                // }
-                searchAll(0);
+                refresh();
             }
         });
     }

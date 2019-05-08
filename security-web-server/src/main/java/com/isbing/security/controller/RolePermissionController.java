@@ -26,7 +26,7 @@ public class RolePermissionController {
 	 * 针对 某一个 角色设置的权限。
 	 * 需要 将这个角色ID  然后就是 点击到的 权限ID
 	 */
-	@PreAuthorize("hasAnyRole('ROLE_ROLE')")
+	@PreAuthorize("hasAnyRole('ROLE_SECURITY')")
 	@PostMapping("setRolePermission")
 	@ResponseBody
 	public void setRolePermission(@RequestParam(value = "roleId") int roleId,
@@ -34,7 +34,7 @@ public class RolePermissionController {
 		rolePermissionService.setRolePermission(roleId, permissionIds);
 	}
 
-	@PreAuthorize("hasAnyRole('ROLE_ROLE')")
+	@PreAuthorize("hasAnyRole('ROLE_SECURITY')")
 	@RequestMapping("getByRoleId")
 	@ResponseBody
 	public List<Integer> getByRoleId(@RequestParam(value = "roleId") int roleId) {

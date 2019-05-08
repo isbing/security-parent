@@ -21,4 +21,6 @@ public interface RoleDao {
 	void update(Role role);
 
 	List<Role> findByIds(List<Integer> roleIdList);
+
+	void deleteById(Integer id);
 }

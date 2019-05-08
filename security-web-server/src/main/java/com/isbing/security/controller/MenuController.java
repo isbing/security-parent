@@ -25,7 +25,7 @@ public class MenuController {
 	 * 找所有菜单的一级菜单
 	 * @return
 	 */
-	@PreAuthorize("hasAnyRole('ROLE_MENU')")
+	@PreAuthorize("hasAnyRole('ROLE_SECURITY')")
 	@GetMapping("getAllFirstLevel")
 	@ResponseBody
 	public PageBean getAllFirstLevel() {
@@ -37,7 +37,7 @@ public class MenuController {
 	 * 找所有菜单的二级菜单
 	 * @return
 	 */
-	@PreAuthorize("hasAnyRole('ROLE_MENU')")
+	@PreAuthorize("hasAnyRole('ROLE_SECURITY')")
 	@GetMapping("getAllSecondLevel")
 	@ResponseBody
 	public List<Menu> getAllSecondLevel(@RequestParam(value = "parentId", required = false) int parentId) {
@@ -49,7 +49,7 @@ public class MenuController {
 	 * 找所有菜单的二级菜单
 	 * @return
 	 */
-	@PreAuthorize("hasAnyRole('ROLE_MENU')")
+	@PreAuthorize("hasAnyRole('ROLE_SECURITY')")
 	@GetMapping("getAllSecondLevelNoId")
 	@ResponseBody
 	public List<Menu> getAllSecondLevelNoId() {
@@ -60,7 +60,7 @@ public class MenuController {
 	 * 新增一级菜单
 	 * @return
 	 */
-	@PreAuthorize("hasAnyRole('ROLE_MENU')")
+	@PreAuthorize("hasAnyRole('ROLE_SECURITY')")
 	@PostMapping("create")
 	@ResponseBody
 	public Integer create(@RequestBody Menu menu) {
@@ -72,14 +72,14 @@ public class MenuController {
 	 * @param id
 	 * @return
 	 */
-	@PreAuthorize("hasAnyRole('ROLE_MENU')")
+	@PreAuthorize("hasAnyRole('ROLE_SECURITY')")
 	@GetMapping("getById")
 	@ResponseBody
 	public Menu getById(@RequestParam(value = "id") Integer id) {
 		return menuService.getById(id);
 	}
 
-	@PreAuthorize("hasAnyRole('ROLE_MENU')")
+	@PreAuthorize("hasAnyRole('ROLE_SECURITY')")
 	@PutMapping("update")
 	@ResponseBody
 	public void update(@RequestBody Menu menu) {

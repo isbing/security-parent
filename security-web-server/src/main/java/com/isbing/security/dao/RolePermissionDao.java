@@ -18,4 +18,6 @@ public interface RolePermissionDao {
 	void clearPermission(int roleId);
 
 	void insertRolePermission(List<Map<String, Integer>> data);
+
+	void deleteByRoleId(Integer roleId);
 }

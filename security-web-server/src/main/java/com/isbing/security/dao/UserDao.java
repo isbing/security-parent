@@ -21,4 +21,6 @@ public interface UserDao {
 	void update(SysUser user);
 
 	SysUser getByUsername(String username);
+
+	void deleteById(Integer userId);
 }

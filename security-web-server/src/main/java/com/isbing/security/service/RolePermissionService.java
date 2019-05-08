@@ -48,4 +48,8 @@ public class RolePermissionService {
 		}
 		rolePermissionDao.insertRolePermission(rolePermissionList);
 	}
+
+	public void deleteByRoleId(Integer roleId) {
+		rolePermissionDao.deleteByRoleId(roleId);
+	}
 }

@@ -42,7 +42,6 @@
         where id = #{id}
     </update>
 
-
     <select id="findByIds" parameterType="list" resultMap="roleResult">
         <include refid="selectSQL"/>
         where id in
@@ -50,4 +49,9 @@
             #{id}
         </foreach>
     </select>
+
+    <delete id="deleteById" parameterType="java.lang.Integer">
+	   delete from role where id = #{value}
+	</delete>
+
 </mapper>

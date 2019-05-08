@@ -20,31 +20,42 @@ public class RoleController {
 	@Resource
 	private RoleService roleService;
 
-	@PreAuthorize("hasAnyRole('ROLE_ROLE')")
+	@PreAuthorize("hasAnyRole('ROLE_SECURITY')")
 	@GetMapping("getAll")
 	@ResponseBody
 	public PageBean getAll() {
 		return roleService.getAll();
 	}
 
-	@PreAuthorize("hasAnyRole('ROLE_ROLE')")
+	@PreAuthorize("hasAnyRole('ROLE_SECURITY')")
 	@PostMapping("create")
 	@ResponseBody
 	public Integer create(@RequestBody Role role) {
 		return roleService.create(role);
 	}
 
-	@PreAuthorize("hasAnyRole('ROLE_ROLE')")
+	@PreAuthorize("hasAnyRole('ROLE_SECURITY')")
 	@GetMapping("getById")
 	@ResponseBody
 	public Role getById(@RequestParam(value = "id") int id) {
 		return roleService.getById(id);
 	}
 
-	@PreAuthorize("hasAnyRole('ROLE_ROLE')")
+	@PreAuthorize("hasAnyRole('ROLE_SECURITY')")
 	@PutMapping("update")
 	@ResponseBody
 	public void update(@RequestBody Role role) {
 		roleService.update(role);
+	}
+
+	/**
+	 * 删除角色
+	 * @param id
+	 */
+	@PreAuthorize("hasAnyRole('ROLE_SECURITY')")
+	@PutMapping("deleteById")
+	@ResponseBody
+	public void deleteById(@RequestParam(value = "id", required = false) Integer id) {
+		roleService.deleteById(id);
 	}
 }

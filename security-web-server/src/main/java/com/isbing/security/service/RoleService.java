@@ -17,6 +17,12 @@ public class RoleService {
 	@Resource
 	private RoleDao roleDao;
 
+	@Resource
+	private RolePermissionService rolePermissionService;
+
+	@Resource
+	private UserRoleService userRoleService;
+
 	public PageBean getAll() {
 		return PageBean.builder().content(roleDao.getAll()).build();
 	}
@@ -36,5 +42,18 @@ public class RoleService {
 
 	public List<Role> findByIds(List<Integer> roleIdList) {
 		return roleDao.findByIds(roleIdList);
+	}
+
+	/**
+	 * 删除整个角色 需要 将 用户-角色 删掉。角色-权限 删掉
+	 * @param id
+	 */
+	public void deleteById(Integer id) {
+		// 删除用户拥有的这个角色
+		userRoleService.deleteByRoleId(id);
+		// 删除这个这个角色 设置过的权限
+		rolePermissionService.deleteByRoleId(id);
+		// 删除角色
+		roleDao.deleteById(id);
 	}
 }

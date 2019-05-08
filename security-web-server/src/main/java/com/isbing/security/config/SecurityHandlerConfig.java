@@ -12,6 +12,7 @@ import org.springframework.data.redis.core.HashOperations;
 import org.springframework.data.redis.core.SetOperations;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.InternalAuthenticationServiceException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
@@ -54,7 +55,7 @@ public class SecurityHandlerConfig {
 					.getPrincipal();
 			// todo 用户登录一次 会生成一个token 然后将其设置过期时间。或者退出登录 将当前token删除
 
-			stringRedisTemplate.opsForValue().set("token:" + token, JsonUtil.toJson(currentUser), 1, TimeUnit.DAYS);
+			stringRedisTemplate.opsForValue().set("token:" + token, JsonUtil.toJson(currentUser), 5, TimeUnit.MINUTES);
 
 			// 用户登录成功 返回给前端 token
 			Map<String, Object> map = Maps.newHashMap();
@@ -74,7 +75,10 @@ public class SecurityHandlerConfig {
 	public AuthenticationFailureHandler loginFailureHandler() {
 		return (request, response, exception) -> {
 			response.setHeader("Content-type", "application/json; charset=utf-8");
-			ErrorResponse result = ErrorResponse.create(1001, exception.getMessage());
+			ErrorResponse result = ErrorResponse.create(1001, "密码错误");
+			if (exception instanceof InternalAuthenticationServiceException) {
+				result = ErrorResponse.create(1001, exception.getMessage());
+			}
 			response.getWriter().write(Objects.requireNonNull(JsonUtil.toJson(result)));
 		};
 
