@@ -16,21 +16,21 @@ import javax.annotation.Resource;
  * Created by song bing
  * Created time 2019/5/6 16:57
  */
-@TestPropertySource("classpath:/env/test/application.properties")
-@RunWith(SpringJUnit4ClassRunner.class)
-@SpringBootTest(classes = { SecurityWebApplication.class }, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-public class TestHH {
-
-	@Resource
-	private StringRedisTemplate stringRedisTemplate;
-
-	@Test
-	public void tt() {
-		String s = stringRedisTemplate.opsForValue().get("token:3ae3af148687428098e850b2bb5eb065");
-		System.out.println(s);
-		CurrentUser currentUser = JsonUtil.toObject(s, CurrentUser.class);
-
-		System.out.println(JsonUtil.toJson(currentUser));
-	}
-
-}
+//@TestPropertySource("classpath:/env/test/application.properties")
+//@RunWith(SpringJUnit4ClassRunner.class)
+//@SpringBootTest(classes = { SecurityWebApplication.class }, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+//public class TestHH {
+//
+//	@Resource
+//	private StringRedisTemplate stringRedisTemplate;
+//
+//	@Test
+//	public void tt() {
+//		String s = stringRedisTemplate.opsForValue().get("token:3ae3af148687428098e850b2bb5eb065");
+//		System.out.println(s);
+//		CurrentUser currentUser = JsonUtil.toObject(s, CurrentUser.class);
+//
+//		System.out.println(JsonUtil.toJson(currentUser));
+//	}
+//
+//}

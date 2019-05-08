@@ -55,7 +55,7 @@ public class SecurityHandlerConfig {
 					.getPrincipal();
 			// todo 用户登录一次 会生成一个token 然后将其设置过期时间。或者退出登录 将当前token删除
 
-			stringRedisTemplate.opsForValue().set("token:" + token, JsonUtil.toJson(currentUser), 5, TimeUnit.MINUTES);
+			stringRedisTemplate.opsForValue().set("token:" + token, JsonUtil.toJson(currentUser), 30, TimeUnit.MINUTES);
 
 			// 用户登录成功 返回给前端 token
 			Map<String, Object> map = Maps.newHashMap();

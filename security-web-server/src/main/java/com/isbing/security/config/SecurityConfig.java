@@ -47,7 +47,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 		http.authorizeRequests()
 				// 默认的 就是 /static目录下的
-				.antMatchers("/", "/login.html", "/resource/**", "/admin/**", "/index.html", "noPerm.html", "/getUser")
+				.antMatchers("/", "/login.html", "/resource/**", "/admin/**", "/other/**", "/index.html", "noPerm.html",
+						"/getUser")
 				.permitAll()
 				// 直接访问这些接口 会被拦截 但是通过页面跳转是不会被拦截的
 				//.antMatchers("/menu/**").permitAll()
