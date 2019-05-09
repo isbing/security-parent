@@ -1,6 +1,7 @@
 package com.isbing.other.controller;
 
-import com.isbing.other.service.PdfTemplateService;
+import com.isbing.other.service.FileService;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -16,17 +17,17 @@ import javax.annotation.Resource;
 public class FileController {
 
 	@Resource
-	private PdfTemplateService pdfTemplateService;
+	private FileService fileService;
 
 	/**
 	 * 通用上传文件方法
 	 * @param file
 	 * @return
 	 */
-	@RequestMapping(value = "/uploadFile", method = RequestMethod.POST)
-	@ResponseBody
+	@PreAuthorize("hasAnyRole('ROLE_POI')")
+	@PostMapping(value = "/uploadFile")
 	public void singleSave(@RequestParam("file") MultipartFile file) {
-		pdfTemplateService.uploadFile(file);
+		fileService.uploadFile(file);
 	}
 
 }

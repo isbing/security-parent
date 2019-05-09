@@ -28,4 +28,10 @@
         <include refid="selectSQL"/>
         where name = #{value}
     </select>
+
+
+    <select id="listAllByPaging" parameterType="com.github.pagehelper.Page" resultMap="pdfTemplateResult">
+        <include refid="selectSQL"/>
+        order by create_time desc
+    </select>
 </mapper>

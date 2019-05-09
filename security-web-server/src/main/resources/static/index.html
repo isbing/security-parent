@@ -164,11 +164,8 @@
                     }
                     //角色
                     var authorities = data.authorities;
-                    console.log(authorities);
                     if (window.localStorage) {
                         localStorage.setItem("authorities", authorities);
-                    } else {
-                        $.cookie('authorities', authorities, {path: "/"});
                     }
                 } else {
                     layer.msg(data.message);
@@ -177,7 +174,7 @@
             },
             error: function (XMLHttpRequest, textStatus, errorThrown) {
                 layer.msg("获取用户信息失败");
-                window.location = "/signin.html";
+                window.location = "/login.html";
                 callback();
             }
         });

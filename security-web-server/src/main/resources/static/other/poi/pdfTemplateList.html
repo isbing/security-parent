@@ -10,10 +10,6 @@
     <link href="/resource/css/font-awesome.min.css?v=4.4.0" rel="stylesheet">
     <link href="/resource/css/animate.css" rel="stylesheet">
     <link href="/resource/css/style.css?v=4.0.0" rel="stylesheet">
-
-    <script src="/resource/js/plugins/My97DatePicker/WdatePicker.js"></script>
-    <script src="/resource/js/plugins/ckeditor/ckeditor.js"></script>
-
 </head>
 <body>
 <div class="col-sm-12">
@@ -21,14 +17,10 @@
         <div id="tab-1" class="tab-pane active">
             <div class="row m-t-sm m-b-sm">
                 <div class="col-md-12">
-
                     <div class="form-group">
                         <div class="col-sm-3">
                             <input id="file" type="file" name="file" class="form-control">
                         </div>
-                        <!--<div class="col-sm-1" style="display: none" id="blogPicDiv">-->
-                        <!--<img class="message-avatar" src="" alt="" id="blogPic">-->
-                        <!--</div>-->
                         <div class="col-sm-3">
                             <a href="javascript:uploadMyFile()">
                                 <button class="btn btn-primary"><i class="fa fa-upload"></i>&nbsp;&nbsp;上传
@@ -36,8 +28,6 @@
                             </a>
                         </div>
                     </div>
-
-
                 </div>
             </div>
 
@@ -47,9 +37,10 @@
                         <thead>
                         <tr>
                             <th>ID</th>
-                            <th>角色名</th>
-                            <th>角色Code</th>
-                            <th colspan="3">操作</th>
+                            <th>模板名</th>
+                            <th>状态</th>
+                            <th>存放位置</th>
+                            <th colspan="2">操作</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -57,6 +48,34 @@
                         </tbody>
                     </table>
                 </div>
+
+                <div class="row m-t-sm">
+                    <div class="col-sm-6">
+                        <div class="line-height-10 m-t-sm" id="fyInfo" role="alert" aria-live="polite"
+                             aria-relevant="all">
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="dataTables_paginate paging_simple_numbers">
+                            <ul class="pagination">
+                                <div class="form-group draggable ui-draggable">
+                                    <div class="pull-left m-t-sm line-height-10">每页显示：</div>
+                                    <div class="pull-left">
+                                        <select id="pageSize" class="form-control height-28">
+                                            <option value="5">5</option>
+                                            <option value="10">10</option>
+                                            <option value="20">20</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </ul>
+                            <ul class="pagination" id="fyPage">
+
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
             </div>
         </div>
     </div>
@@ -66,23 +85,21 @@
 <script src="/resource/js/content.js?v=1.0.0"></script>
 <script src="/resource/js/ajaxfileupload.js?v=1.0.0"></script>
 <script src="/resource/js/plugins/layer/layer.min.js"></script>
-
-<script src="/resource/js/jquery.cookie.js"></script>
 <script src="/resource/js/util.js"></script>
 
 <script type="application/javascript">
 
-    searchAll(0);
+    searchAll(1);
 
     function searchAll(pageNumber) {
         $.ajax({
             type: "GET",
-            url: "/role/getAll",
+            url: "/pdfTemplate/listAll",
             'headers': {
                 'x-auth-token': localStorage.getItem("token")
             },
             data: {
-                size: 999,
+                size: $("#pageSize").val(),
                 page: pageNumber
             },
             dataType: "json",
@@ -93,15 +110,34 @@
                     data = data.data;
                     if (data != null) {
                         $("#table tbody").empty();
-                        for (var i = 0; i < data.content.length; i++) {
+                        for (var i = 0; i < data.list.length; i++) {
+                            var statusStr = "上线";
+                            if (data.list[i].status == 2) {
+                                statusStr = "下线";
+                            }
                             $("#table tbody").append("<tr>" +
-                                "<th>" + checkedStr(data.content[i].id) + "</th>" +
-                                "<th>" + checkedStr(data.content[i].name) + "</th>" +
-                                "<th>" + checkedStr(data.content[i].code) + "</th>" +
-                                "<th><a onclick='setPerm(\"" + data.content[i].id + "\")'>设置权限</a></th>" +
-                                "<th><a onclick='updateRole(\"" + data.content[i].id + "\")'>修改</a></th>" +
-                                "<th><a onclick='deleteRole(\"" + data.content[i].id + "\")'>删除角色</a></th>" +
+                                "<th>" + checkedStr(data.list[i].id) + "</th>" +
+                                "<th>" + checkedStr(data.list[i].name) + "</th>" +
+                                "<th>" + checkedStr(statusStr) + "</th>" +
+                                "<th>" + checkedStr(data.list[i].viewLocation) + "</th>" +
+                                "<th><a onclick='setPerm(\"" + data.list[i].id + "\")'>变更状态</a></th>" +
+                                "<th><a onclick='updateRole(\"" + data.list[i].id + "\")'>预览模板</a></th>" +
                                 "</tr>");
+                        }
+
+                        //如果出现分页
+                        //分页显示信息
+                        $("#fyInfo").html("当前第" + (data.pageNum) + "页　共" + data.pages + "页　当前显示" + (((data.pageNum - 1) * data.pageSize) + 1) + "--" + (((data.pageNum - 1) * data.pageSize) + data.list.length) + "条　共" + data.total + "条　每页显示" + data.pageSize + "条");
+                        $("#fyPage").empty();
+                        if (data.total >= data.pageSize) {
+                            $("#fyPage").append('<li class="paginate_button previous" aria-controls="DataTables_Table_0"tabindex="0" id="DataTables_Table_0_previous"><a onclick="searchAll(1)" href="javascript:;">首页</a></li>');
+                            if (data.pageNum != 1) {
+                                $("#fyPage").append('<li class="paginate_button" aria-controls="DataTables_Table_0" tabindex="0"><a onclick="searchAll(' + data.prePage + ')" href="javascript:;">上一页</a></li>');
+                            }
+                            if ((data.pages) > data.pageNum) {
+                                $("#fyPage").append('<li class="paginate_button " aria-controls="DataTables_Table_0" tabindex="0"><a onclick="searchAll(' + (data.nextPage) + ')" href="javascript:;">下一页</a></li>');
+                            }
+                            $("#fyPage").append('<li class="paginate_button next" aria-controls="DataTables_Table_0" tabindex="0" id="DataTables_Table_0_next"><a onclick="searchAll(' + (data.pages) + ')" href="javascript:;">尾页</a></li>');
                         }
 
                     }
@@ -112,17 +148,19 @@
         });
     }
 
+    $("#pageSize").change(function () {
+        searchAll(1);
+    });
 
-    //上传文件
     function uploadMyFile() {
         //判断是否有选择上传文件
-        var filePath = $("#file").val();
-        if (filePath == "") {
-            layer.msg("请选择上传文件");
+        var file = $("#file").val();
+        if (file == "") {
+            layer.msg("请选择上传图片");
             return;
         }
         //判断上传文件的后缀名
-        var strExtension = filePath.substr(filePath.lastIndexOf('.') + 1);
+        var strExtension = file.substr(file.lastIndexOf('.') + 1);
         if (strExtension != 'pdf') {
             layer.msg("请选择PDF文件");
             return;
@@ -134,15 +172,14 @@
             type: 'post',
             dataType: 'json', //返回值类型 一般设置为json
             data: {
-                fileType: 'blogPic',
+                //可以传参数 当前插件不能用header，只能用参数传值
+                "x-auth-token": localStorage.getItem("token")
             },
             success: function (data, status) {
-                if (data.code == '400') {
-                    window.location = "/signin.html";
-                }
-                if (data != null) {
-                    $("#blogPicDiv").show();
-                    $("#blogPic").attr("src", data.uri);
+                if (data.code == '200') {
+                    layer.msg("上传成功");
+                } else {
+                    layer.msg(data.message);
                 }
             },
             error: function (data, status, e) {
@@ -153,7 +190,6 @@
 
 
 </script>
-
 </body>
 
 </html>
