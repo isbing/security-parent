@@ -14,4 +14,6 @@ public interface PdfTemplateDao {
 	void insert(PdfTemplate pdfTemplate);
 
 	List<PdfTemplate> listAllByPaging();
+
+	PdfTemplate getById(Integer id);
 }

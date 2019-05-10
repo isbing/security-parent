@@ -121,7 +121,7 @@
                                 "<th>" + checkedStr(statusStr) + "</th>" +
                                 "<th>" + checkedStr(data.list[i].viewLocation) + "</th>" +
                                 "<th><a onclick='setPerm(\"" + data.list[i].id + "\")'>变更状态</a></th>" +
-                                "<th><a onclick='updateRole(\"" + data.list[i].id + "\")'>预览模板</a></th>" +
+                                "<th><a onclick='viewTemplate(\"" + data.list[i].id + "\",\"" + data.list[i].viewLocation + "\")'>预览模板</a></th>" +
                                 "</tr>");
                         }
 
@@ -188,6 +188,27 @@
         });
     }
 
+    /**
+     * 预览模板
+     * @param id
+     * @param viewLocation
+     */
+    function viewTemplate(id, viewLocation) {
+        if (viewLocation == null || viewLocation == "") {
+            layer.msg("当前模板还并没有地址");
+            return;
+        }
+        window.open("/file/viewTemplate?id=" + id + "&x-auth-token=" + localStorage.getItem("token"));
+    }
+
+    function viewContract(id, docLocation) {
+        if (docLocation == null || docLocation == "") {
+            alert("当前合同地址为空");
+            return;
+        }
+        var uri = "/netsign/contract/viewContract?id=" + id;
+        window.open("/lib/pdfjs/web/viewer.html?file=" + encodeURIComponent(uri));
+    }
 
 </script>
 </body>

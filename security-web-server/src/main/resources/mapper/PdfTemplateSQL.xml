@@ -29,6 +29,10 @@
         where name = #{value}
     </select>
 
+    <select id="getById" parameterType="int" resultMap="pdfTemplateResult">
+        <include refid="selectSQL"/>
+        where id = #{value}
+    </select>
 
     <select id="listAllByPaging" parameterType="com.github.pagehelper.Page" resultMap="pdfTemplateResult">
         <include refid="selectSQL"/>

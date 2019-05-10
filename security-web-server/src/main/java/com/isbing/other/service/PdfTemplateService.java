@@ -33,4 +33,13 @@ public class PdfTemplateService {
 		List<PdfTemplate> pdfTemplateList = pdfTemplateDao.listAllByPaging();
 		return new PageInfo<>(pdfTemplateList, pageParam.getSize());
 	}
+
+	/**
+	 * 根据ID查找
+	 * @param id
+	 * @return
+	 */
+	public PdfTemplate getById(Integer id) {
+		return pdfTemplateDao.getById(id);
+	}
 }

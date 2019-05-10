@@ -40,9 +40,11 @@ public class GlobalExceptionAdvice extends SimpleMappingExceptionResolver {
 				requestContentType = requestContentType.toLowerCase();
 				if (requestContentType.startsWith(MediaType.APPLICATION_JSON_VALUE)) {//json
 					return drawJson(request, response, ex);
-				} else if (requestContentType.startsWith(MediaType.TEXT_HTML_VALUE)) {//html
-					return drawHtml(request, response, ex);
 				}
+				// todo 加上下面的注释 无法实现预览的效果
+				//				} else if (requestContentType.startsWith(MediaType.TEXT_HTML_VALUE)) {//html
+				//					return drawHtml(request, response, ex);
+				//				}
 			}
 
 			//优先检查 method的RequestMapping
