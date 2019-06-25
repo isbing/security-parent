@@ -1,5 +1,6 @@
 package com.isbing.security.controller;
 
+import com.isbing.security.annotation.RequestToken;
 import com.isbing.security.bean.Menu;
 import com.isbing.security.bean.PageBean;
 import com.isbing.security.service.MenuService;
@@ -28,7 +29,8 @@ public class MenuController {
 	@PreAuthorize("hasAnyRole('ROLE_SECURITY')")
 	@GetMapping("getAllFirstLevel")
 	@ResponseBody
-	public PageBean getAllFirstLevel() {
+	public PageBean getAllFirstLevel(@RequestToken String token) {
+
 		return menuService.getAllFirstLevel();
 	}
 

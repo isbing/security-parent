@@ -203,7 +203,7 @@
 
     function viewContract(id, docLocation) {
         if (docLocation == null || docLocation == "") {
-            alert("当前合同地址为空");
+            layer.msg("当前合同地址为空");
             return;
         }
         var uri = "/netsign/contract/viewContract?id=" + id;
